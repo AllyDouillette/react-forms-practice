@@ -13,7 +13,6 @@ function RadioButtons(props) {
 
 export default function App() {
 
-  //TODO: Add your state fields here
   const initForm = {
     fullName: "",
     address: "",
@@ -33,13 +32,17 @@ export default function App() {
     if (type === "radio") {
       console.log(event)
     }
+
     // update the state
-    setFormContent(
-      { 
-        ...form,
-        [name]: value
+    switch (type) {
+      case "text":
+      case "tel":
+      case "email":
+      case "radio":
+      default:
+        setFormContent({ ...form, [name]: value })
+        break;
     }
-    )
   }
 
   const contactOptions = [["Phone", "phone"], ["E-Mail", "email"], ["Slow Mail", "post"], ["No Contact", ""]]
@@ -79,7 +82,7 @@ export default function App() {
             ></textarea>
           </label>
 
-          <div className="form__radio-group" onChange={(event) => inputHandler(event)} >
+          <div className="form__radio-group" type="radio" onChange={(event) => inputHandler(event)} >
             <p>How do you want to be contacted? </p>
             {contactOptions.map(element => <RadioButtons value={element[1]} description={element[0]}/>)}
           </div>
