@@ -1,6 +1,16 @@
 import { useState } from "react";
 import "./App.css";
 
+function RadioButtons(props) {
+  const {value, description} = props
+  return (
+    <label>
+      <input type="radio" name="contact" value={value} />
+      {description}
+    </label>
+  )
+}
+
 export default function App() {
 
   //TODO: Add your state fields here
@@ -13,13 +23,16 @@ export default function App() {
     contact: "",
     TaC: false
   }
+
   const [form, setFormContent] = useState(initForm)
-  const {fullName} = form
 
   const inputHandler = (event) => {
     // create a variable e.g. name "type" and assign it the value of event.target.type
     const {name, value, type} = event.target
     // console.log(name, value, type)
+    if (type === "radio") {
+      console.log(event)
+    }
     // update the state
     setFormContent(
       { 
@@ -27,8 +40,9 @@ export default function App() {
         [name]: value
     }
     )
-    console.log("updated form", form)
   }
+
+  const contactOptions = [["Phone", "phone"], ["E-Mail", "email"], ["Slow Mail", "post"], ["No Contact", ""]]
 
   return (
     <>
@@ -60,32 +74,14 @@ export default function App() {
             <textarea
               name="complaint"
               rows="10"
-              placeholder="You can complain here"
+              placeholder="You can complain here, this is a safe space"
               onChange={(event) => inputHandler(event)} 
             ></textarea>
           </label>
 
           <div className="form__radio-group" onChange={(event) => inputHandler(event)} >
             <p>How do you want to be contacted? </p>
-            <label>
-              <input type="radio" name="contact" value="phone" />
-              Phone
-            </label>
-
-            <label>
-              <input type="radio" name="contact" value="email" />
-              Email
-            </label>
-
-            <label>
-              <input type="radio" name="contact" value="post" />
-              Slow Mail
-            </label>
-
-            <label>
-              <input type="radio" name="contact" value="none" />
-              No contact!
-            </label>
+            {contactOptions.map(element => <RadioButtons value={element[1]} description={element[0]}/>)}
           </div>
 
           <label>
