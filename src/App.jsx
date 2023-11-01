@@ -4,6 +4,31 @@ import "./App.css";
 export default function App() {
 
   //TODO: Add your state fields here
+  const initForm = {
+    fullName: "",
+    address: "",
+    phoneNum: "",
+    email: "",
+    complain: "",
+    contact: "",
+    TaC: false
+  }
+  const [form, setFormContent] = useState(initForm)
+  const {fullName} = form
+
+  const inputHandler = (event) => {
+    // create a variable e.g. name "type" and assign it the value of event.target.type
+    const {name, value, type} = event.target
+    // console.log(name, value, type)
+    // update the state
+    setFormContent(
+      { 
+        ...form,
+        [name]: value
+    }
+    )
+    console.log("updated form", form)
+  }
 
   return (
     <>
@@ -12,15 +37,15 @@ export default function App() {
         <div className="form__section-left">
           <label>
             Full name
-            <input type="text" name="name" required />
+            <input type="text" name="name" onChange={(event) => inputHandler(event)} required />
           </label>
           <label>
             Address
-            <input type="text" name="address" />
+            <input type="text" name="address" onChange={(event) => inputHandler(event)} />
           </label>
           <label>
             Phone Number
-            <input type="tel" name="phone" />
+            <input type="tel" name="phone" onChange={(event) => inputHandler(event)} />
           </label>
 
           <label>
@@ -36,10 +61,11 @@ export default function App() {
               name="complaint"
               rows="10"
               placeholder="You can complain here"
+              onChange={(event) => inputHandler(event)} 
             ></textarea>
           </label>
 
-          <div className="form__radio-group">
+          <div className="form__radio-group" onChange={(event) => inputHandler(event)} >
             <p>How do you want to be contacted? </p>
             <label>
               <input type="radio" name="contact" value="phone" />
@@ -64,7 +90,7 @@ export default function App() {
 
           <label>
             I agree you take my data, and do whatever
-            <input type="checkbox" name="consent" id="consent" />
+            <input type="checkbox" name="consent" id="consent" onChange={(event) => inputHandler(event)} />
           </label>
         </div>
         <input type="submit" value="Submit!" />
